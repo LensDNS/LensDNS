@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghuser"
 	"github.com/AdguardTeam/golibs/testutil"
+	"github.com/LensDNS/LensDNS/internal/aghuser"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/crypto/bcrypt"

@@ -6,7 +6,7 @@ import (
 	"context"
 	"log/slog"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
+	"github.com/LensDNS/LensDNS/internal/aghos"
 )
 
 func checkOtherDHCP(

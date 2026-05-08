@@ -12,11 +12,11 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/client"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
-	"github.com/AdguardTeam/AdGuardHome/internal/schedule"
-	"github.com/AdguardTeam/AdGuardHome/internal/whois"
 	"github.com/AdguardTeam/golibs/testutil"
+	"github.com/LensDNS/LensDNS/internal/client"
+	"github.com/LensDNS/LensDNS/internal/filtering"
+	"github.com/LensDNS/LensDNS/internal/schedule"
+	"github.com/LensDNS/LensDNS/internal/whois"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

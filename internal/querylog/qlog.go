@@ -9,12 +9,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
 	"github.com/AdguardTeam/golibs/container"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/timeutil"
+	"github.com/LensDNS/LensDNS/internal/aghnet"
+	"github.com/LensDNS/LensDNS/internal/filtering"
 	"github.com/miekg/dns"
 )
 

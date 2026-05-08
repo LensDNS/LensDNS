@@ -10,10 +10,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering/rulelist"
 	"github.com/AdguardTeam/golibs/netutil/urlutil"
 	"github.com/AdguardTeam/golibs/testutil"
 	"github.com/AdguardTeam/urlfilter/rules"
+	"github.com/LensDNS/LensDNS/internal/filtering/rulelist"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -39,7 +39,7 @@ const (
 
 	// testRuleTextCosmetic is a cosmetic rule with a zero-width non-joiner.
 	//
-	// See https://github.com/AdguardTeam/AdGuardHome/issues/6003.
+	// See https://github.com/LensDNS/LensDNS/issues/6003.
 	testRuleTextCosmetic = "||cosmetic.example## :has-text(/\u200c/i)\n"
 )
 

@@ -8,10 +8,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghtest"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/osutil/executil"
 	"github.com/AdguardTeam/golibs/testutil"
+	"github.com/LensDNS/LensDNS/internal/aghtest"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -124,4 +124,33 @@ func TestUpdater_internal(t *testing.T) {
 // newCtx is a helper that returns a new context with a timeout.
 func newCtx(tb testing.TB) (ctx context.Context) {
 	return testutil.ContextWithTimeout(tb, 1*time.Second)
+}
+
+func TestDefaultVersionURL_override(t *testing.T) {
+	orig := defaultVersionURLOverride
+	t.Cleanup(func() { defaultVersionURLOverride = orig })
+
+	defaultVersionURLOverride = ""
+	baseline := DefaultVersionURL().String()
+
+	t.Run("empty", func(t *testing.T) {
+		defaultVersionURLOverride = ""
+		assert.Equal(t, baseline, DefaultVersionURL().String())
+	})
+
+	t.Run("valid_https", func(t *testing.T) {
+		const override = "https://github.com/example/AdGuardHome/releases/latest/download/version.json"
+		defaultVersionURLOverride = override
+		got := DefaultVersionURL()
+		require.NotNil(t, got)
+		assert.Equal(t, override, got.String())
+	})
+
+	t.Run("invalid_fallback", func(t *testing.T) {
+		defaultVersionURLOverride = "not-a-url"
+		assert.Equal(t, baseline, DefaultVersionURL().String())
+
+		defaultVersionURLOverride = "ftp://example.com/version.json"
+		assert.Equal(t, baseline, DefaultVersionURL().String())
+	})
 }

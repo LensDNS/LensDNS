@@ -12,11 +12,11 @@ import (
 	"os"
 	"strings"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/osutil/executil"
 	"github.com/AdguardTeam/golibs/stringutil"
+	"github.com/LensDNS/LensDNS/internal/aghos"
 	"github.com/google/renameio/v2/maybe"
 	"golang.org/x/sys/unix"
 )

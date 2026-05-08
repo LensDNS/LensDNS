@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
 	"github.com/AdguardTeam/golibs/container"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
 )
 
 // TODO(a.garipov): Get rid of a global or generate from .twosky.json.

@@ -15,13 +15,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
-	"github.com/AdguardTeam/AdGuardHome/internal/next/agh"
-	"github.com/AdguardTeam/AdGuardHome/internal/next/dnssvc"
-	"github.com/AdguardTeam/AdGuardHome/internal/next/websvc"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/timeutil"
+	"github.com/LensDNS/LensDNS/internal/aghos"
+	"github.com/LensDNS/LensDNS/internal/next/agh"
+	"github.com/LensDNS/LensDNS/internal/next/dnssvc"
+	"github.com/LensDNS/LensDNS/internal/next/websvc"
 	"github.com/google/renameio/v2/maybe"
 	yaml "go.yaml.in/yaml/v4"
 )

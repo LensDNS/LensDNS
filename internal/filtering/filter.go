@@ -14,12 +14,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghrenameio"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering/rulelist"
 	"github.com/AdguardTeam/golibs/container"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
+	"github.com/LensDNS/LensDNS/internal/aghos"
+	"github.com/LensDNS/LensDNS/internal/aghrenameio"
+	"github.com/LensDNS/LensDNS/internal/filtering/rulelist"
 )
 
 // filterDir is the subdirectory of a data directory to store downloaded

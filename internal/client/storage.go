@@ -10,16 +10,16 @@ import (
 	"sync"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/arpdb"
-	"github.com/AdguardTeam/AdGuardHome/internal/dhcpsvc"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
-	"github.com/AdguardTeam/AdGuardHome/internal/whois"
-	"github.com/AdguardTeam/dnsproxy/proxy"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/hostsfile"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/netutil"
 	"github.com/AdguardTeam/golibs/timeutil"
+	"github.com/LensDNS/LensDNS/internal/arpdb"
+	"github.com/LensDNS/LensDNS/internal/dhcpsvc"
+	"github.com/LensDNS/LensDNS/internal/filtering"
+	"github.com/LensDNS/LensDNS/internal/whois"
+	"github.com/LensDNS/dnsproxy/proxy"
 )
 
 // allowedTags is the list of available client tags.

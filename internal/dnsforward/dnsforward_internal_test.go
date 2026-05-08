@@ -22,21 +22,21 @@ import (
 	"testing/fstest"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/agh"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghtest"
-	"github.com/AdguardTeam/AdGuardHome/internal/client"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering/hashprefix"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering/safesearch"
-	"github.com/AdguardTeam/AdGuardHome/internal/schedule"
-	"github.com/AdguardTeam/dnsproxy/proxy"
-	"github.com/AdguardTeam/dnsproxy/upstream"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/netutil"
 	"github.com/AdguardTeam/golibs/testutil"
 	"github.com/AdguardTeam/golibs/timeutil"
+	"github.com/LensDNS/LensDNS/internal/agh"
+	"github.com/LensDNS/LensDNS/internal/aghnet"
+	"github.com/LensDNS/LensDNS/internal/aghos"
+	"github.com/LensDNS/LensDNS/internal/aghtest"
+	"github.com/LensDNS/LensDNS/internal/client"
+	"github.com/LensDNS/LensDNS/internal/filtering"
+	"github.com/LensDNS/LensDNS/internal/filtering/hashprefix"
+	"github.com/LensDNS/LensDNS/internal/filtering/safesearch"
+	"github.com/LensDNS/LensDNS/internal/schedule"
+	"github.com/LensDNS/dnsproxy/proxy"
+	"github.com/LensDNS/dnsproxy/upstream"
 	"github.com/miekg/dns"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -849,8 +849,11 @@ func TestServerCustomClientUpstream(t *testing.T) {
 
 	addr := s.dnsProxy.Addr(proxy.ProtoUDP).String()
 
-	// Send test request.
+	// Send test request.  EDNS0 + DO is required for caching when the proxy has
+	// DNSSEC disabled (dnsproxy v0.81.9+); otherwise cacheWorks stays false and
+	// the custom upstream cache is bypassed.
 	req := createTestMessage("host.")
+	req.SetEdns0(dns.DefaultMsgSize, true)
 
 	reply, err := dns.Exchange(req, addr)
 	require.NoError(t, err)

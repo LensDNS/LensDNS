@@ -9,11 +9,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/configmigrate"
-	"github.com/AdguardTeam/AdGuardHome/internal/version"
 	"github.com/AdguardTeam/golibs/log"
 	"github.com/AdguardTeam/golibs/osutil"
 	"github.com/AdguardTeam/golibs/stringutil"
+	"github.com/LensDNS/LensDNS/internal/configmigrate"
+	"github.com/LensDNS/LensDNS/internal/version"
 )
 
 // TODO(a.garipov): Replace with package flag.

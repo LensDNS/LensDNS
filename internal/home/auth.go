@@ -7,12 +7,12 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghuser"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/netutil"
 	"github.com/AdguardTeam/golibs/netutil/httputil"
 	"github.com/AdguardTeam/golibs/timeutil"
+	"github.com/LensDNS/LensDNS/internal/aghuser"
 	"golang.org/x/crypto/bcrypt"
 )
 

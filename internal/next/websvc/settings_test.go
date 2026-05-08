@@ -8,13 +8,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/next/agh"
-	"github.com/AdguardTeam/AdGuardHome/internal/next/dnssvc"
-	"github.com/AdguardTeam/AdGuardHome/internal/next/websvc"
-	"github.com/AdguardTeam/dnsproxy/proxy"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/netutil/urlutil"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
+	"github.com/LensDNS/LensDNS/internal/next/agh"
+	"github.com/LensDNS/LensDNS/internal/next/dnssvc"
+	"github.com/LensDNS/LensDNS/internal/next/websvc"
+	"github.com/LensDNS/dnsproxy/proxy"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

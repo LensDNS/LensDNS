@@ -6,14 +6,14 @@ import (
 	"slices"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghslog"
-	"github.com/AdguardTeam/dnsproxy/proxy"
-	"github.com/AdguardTeam/dnsproxy/upstream"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/stringutil"
 	"github.com/AdguardTeam/golibs/timeutil"
+	"github.com/LensDNS/LensDNS/internal/aghnet"
+	"github.com/LensDNS/LensDNS/internal/aghslog"
+	"github.com/LensDNS/dnsproxy/proxy"
+	"github.com/LensDNS/dnsproxy/upstream"
 )
 
 // CommonUpstreamConfig contains common settings for custom client upstream

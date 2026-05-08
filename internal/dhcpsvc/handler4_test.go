@@ -8,10 +8,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/dhcpsvc"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/testutil"
 	"github.com/AdguardTeam/golibs/testutil/servicetest"
+	"github.com/LensDNS/LensDNS/internal/dhcpsvc"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/stretchr/testify/assert"

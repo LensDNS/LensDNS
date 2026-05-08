@@ -67,6 +67,10 @@ export const setDnsConfig = (config: any) => async (dispatch: any) => {
             data.ratelimit_whitelist = splitByNewLine(config.ratelimit_whitelist);
             hasDnsSettings = true;
         }
+        if (Object.prototype.hasOwnProperty.call(data, 'trusted_proxies')) {
+            data.trusted_proxies = splitByNewLine(config.trusted_proxies);
+            hasDnsSettings = true;
+        }
 
         await apiClient.setDnsConfig(data);
 

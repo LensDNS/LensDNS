@@ -1,3 +1,61 @@
+# LensDNS/LensDNS
+
+Language: English | [中文](README_zh.md)
+
+<p align="center"><img src="doc/lensdns-logo.svg" alt="LensDNS" width="360"/></p>
+
+**LensDNS** is a hardened distribution of [AdGuard Home](https://github.com/AdguardTeam/AdGuardHome), powered by [`LensDNS/dnsproxy`](https://github.com/LensDNS/dnsproxy) for proxy-aware DNS-over-TCP and DNS-over-TLS deployments behind load balancers.
+
+> High-performance, proxy-aware DNS for modern TCP and TLS edges.
+
+It preserves upstream compatibility while adding **Proxy Protocol v2**, improved transport behaviour, and LensDNS-oriented release mechanics. Lineage: [AdguardTeam/AdGuardHome](https://github.com/AdguardTeam/AdGuardHome).
+
+```text
+Client → HAProxy / Nginx / LB → (PPv2) → LensDNS → upstream DNS
+```
+
+## Core features
+
+- **Proxy Protocol v2** on DNS-over-TCP and DoT with strict semantics and `dns.trusted_proxies` — [docs/ppv2.md](docs/ppv2.md).
+- **Real client IP visibility** behind L4/L7 load balancers when PPv2 is used end-to-end.
+- **LensDNS dnsproxy** engine: TLS/TCP tuning, keep-alive, TFO where supported, TLS resumption, hardened TCP framing — [docs/engine.md](docs/engine.md).
+- **Releases & updates**: GitHub Releases, `version.json`, CI defaults — [docs/releases.md](docs/releases.md).
+- **Docker** on GHCR and **release binaries** for common platforms (GitHub Actions).
+- **Upstream README** is embedded below for generic install, build, and community resources.
+
+## Quick start
+
+**Docker** (GHCR):
+
+```sh
+docker pull ghcr.io/lensdns/lensdns:latest
+```
+
+**Release binary**: [GitHub Releases](https://github.com/LensDNS/LensDNS/releases).
+
+**Build from source**: follow the embedded upstream **How to build** section below (Go/Node prerequisites).
+
+## Documentation
+
+- [LensDNS docs index](docs/README.md)
+- [LensDNS docs index (简体中文)](docs/zh/README.md)
+- [PPv2 and trusted proxies](docs/ppv2.md)
+- [Releases and version.json](docs/releases.md)
+- [DNS engine (dnsproxy)](docs/engine.md)
+- Core library: [github.com/LensDNS/dnsproxy](https://github.com/LensDNS/dnsproxy)
+
+## Engine
+
+DNS forwarding uses [`github.com/LensDNS/dnsproxy`](https://github.com/LensDNS/dnsproxy). Transport-layer details, flags, and discussions live in that repository.
+
+## Feedback
+
+- [Discussions](https://github.com/LensDNS/LensDNS/discussions)
+- [Issues](https://github.com/LensDNS/LensDNS/issues)
+
+Below is the upstream README content.
+
+
 &nbsp;
 <p align="center">
   <picture>

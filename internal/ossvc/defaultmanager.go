@@ -8,10 +8,10 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/osutil/executil"
+	"github.com/LensDNS/LensDNS/internal/aghos"
 	"github.com/kardianos/service"
 )
 

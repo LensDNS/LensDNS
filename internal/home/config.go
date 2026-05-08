@@ -12,22 +12,22 @@ import (
 	"sync"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/agh"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghalg"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghtls"
-	"github.com/AdguardTeam/AdGuardHome/internal/configmigrate"
-	"github.com/AdguardTeam/AdGuardHome/internal/dhcpd"
-	"github.com/AdguardTeam/AdGuardHome/internal/dnsforward"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
-	"github.com/AdguardTeam/AdGuardHome/internal/querylog"
-	"github.com/AdguardTeam/AdGuardHome/internal/schedule"
-	"github.com/AdguardTeam/AdGuardHome/internal/stats"
-	"github.com/AdguardTeam/dnsproxy/fastip"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/netutil"
 	"github.com/AdguardTeam/golibs/timeutil"
+	"github.com/LensDNS/LensDNS/internal/agh"
+	"github.com/LensDNS/LensDNS/internal/aghalg"
+	"github.com/LensDNS/LensDNS/internal/aghos"
+	"github.com/LensDNS/LensDNS/internal/aghtls"
+	"github.com/LensDNS/LensDNS/internal/configmigrate"
+	"github.com/LensDNS/LensDNS/internal/dhcpd"
+	"github.com/LensDNS/LensDNS/internal/dnsforward"
+	"github.com/LensDNS/LensDNS/internal/filtering"
+	"github.com/LensDNS/LensDNS/internal/querylog"
+	"github.com/LensDNS/LensDNS/internal/schedule"
+	"github.com/LensDNS/LensDNS/internal/stats"
+	"github.com/LensDNS/dnsproxy/fastip"
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/renameio/v2/maybe"
 	yaml "go.yaml.in/yaml/v4"
@@ -325,7 +325,7 @@ type tlsConfigSettings struct {
 	// DNSCryptConfigFile is the path to the DNSCrypt config file.  Must be set
 	// if PortDNSCrypt is not zero.
 	//
-	// See https://github.com/AdguardTeam/dnsproxy and
+	// See https://github.com/LensDNS/dnsproxy and
 	// https://github.com/ameshkov/dnscrypt.
 	DNSCryptConfigFile string `yaml:"dnscrypt_config_file" json:"dnscrypt_config_file"`
 
@@ -477,13 +477,15 @@ var config = &configuration{
 		BindHosts: []netip.Addr{netip.IPv4Unspecified()},
 		Port:      defaultPortDNS,
 		Config: dnsforward.Config{
-			Ratelimit:              20,
-			RatelimitSubnetLenIPv4: 24,
-			RatelimitSubnetLenIPv6: 56,
-			RefuseAny:              true,
-			UpstreamMode:           dnsforward.UpstreamModeLoadBalance,
-			HandleDDR:              true,
-			FastestTimeout:         timeutil.Duration(fastip.DefaultPingWaitTimeout),
+			Ratelimit:                 20,
+			RatelimitSubnetLenIPv4:    24,
+			RatelimitSubnetLenIPv6:    56,
+			RefuseAny:                 true,
+			UpstreamMode:              dnsforward.UpstreamModeLoadBalance,
+			HandleDDR:                 true,
+			FastestTimeout:            timeutil.Duration(fastip.DefaultPingWaitTimeout),
+			TCPProxyProtocolV2Enabled: false,
+			TLSProxyProtocolV2Enabled: false,
 
 			TrustedProxies: []netutil.Prefix{{
 				Prefix: netip.MustParsePrefix("127.0.0.0/8"),
@@ -504,8 +506,8 @@ var config = &configuration{
 
 			// set default maximum concurrent queries to 300
 			// we introduced a default limit due to this:
-			// https://github.com/AdguardTeam/AdGuardHome/issues/2015#issuecomment-674041912
-			// was later increased to 300 due to https://github.com/AdguardTeam/AdGuardHome/issues/2257
+			// https://github.com/LensDNS/LensDNS/issues/2015#issuecomment-674041912
+			// was later increased to 300 due to https://github.com/LensDNS/LensDNS/issues/2257
 			MaxGoroutines: 300,
 		},
 		UpstreamTimeout:  timeutil.Duration(dnsforward.DefaultTimeout),

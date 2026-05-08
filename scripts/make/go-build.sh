@@ -73,7 +73,7 @@ readonly committime
 # Set the linker flags accordingly: set the release channel and the current
 # version as well as goarm and gomips variable values, if the variables are set
 # and are not empty.
-version_pkg='github.com/AdguardTeam/AdGuardHome/internal/version'
+version_pkg='github.com/LensDNS/LensDNS/internal/version'
 readonly version_pkg
 
 ldflags="-s -w"
@@ -84,6 +84,13 @@ if [ "${GOARM:-}" != '' ]; then
 	ldflags="${ldflags} -X ${version_pkg}.goarm=${GOARM}"
 elif [ "${GOMIPS:-}" != '' ]; then
 	ldflags="${ldflags} -X ${version_pkg}.gomips=${GOMIPS}"
+fi
+
+# Allow forks/CI to bake the default version-check URL into the binary via
+# UPDATE_INDEX_URL.  Empty means upstream default (static.adtidy.org).
+if [ "${UPDATE_INDEX_URL:-}" != '' ]; then
+	updater_pkg='github.com/LensDNS/LensDNS/internal/updater'
+	ldflags="${ldflags} -X ${updater_pkg}.defaultVersionURLOverride=${UPDATE_INDEX_URL}"
 fi
 readonly ldflags
 

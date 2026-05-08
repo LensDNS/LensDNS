@@ -13,15 +13,15 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghslog"
-	"github.com/AdguardTeam/AdGuardHome/internal/next/agh"
-	"github.com/AdguardTeam/dnsproxy/proxy"
-	"github.com/AdguardTeam/dnsproxy/ratelimit"
-	"github.com/AdguardTeam/dnsproxy/upstream"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/netutil"
+	"github.com/LensDNS/LensDNS/internal/aghnet"
+	"github.com/LensDNS/LensDNS/internal/aghslog"
+	"github.com/LensDNS/LensDNS/internal/next/agh"
+	"github.com/LensDNS/dnsproxy/proxy"
+	"github.com/LensDNS/dnsproxy/ratelimit"
+	"github.com/LensDNS/dnsproxy/upstream"
 )
 
 // Service is the AdGuard Home DNS service.  A nil *Service is a valid

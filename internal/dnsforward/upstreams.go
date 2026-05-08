@@ -7,11 +7,11 @@ import (
 	"slices"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/dnsproxy/proxy"
-	"github.com/AdguardTeam/dnsproxy/upstream"
 	"github.com/AdguardTeam/golibs/netutil"
 	"github.com/AdguardTeam/golibs/stringutil"
+	"github.com/LensDNS/LensDNS/internal/aghnet"
+	"github.com/LensDNS/dnsproxy/proxy"
+	"github.com/LensDNS/dnsproxy/upstream"
 )
 
 // newBootstrap returns a bootstrap resolver based on the configuration of s.

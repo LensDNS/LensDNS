@@ -6,11 +6,11 @@ import (
 	"net"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
-	"github.com/AdguardTeam/AdGuardHome/internal/querylog"
-	"github.com/AdguardTeam/AdGuardHome/internal/stats"
-	"github.com/AdguardTeam/dnsproxy/proxy"
+	"github.com/LensDNS/LensDNS/internal/aghnet"
+	"github.com/LensDNS/LensDNS/internal/filtering"
+	"github.com/LensDNS/LensDNS/internal/querylog"
+	"github.com/LensDNS/LensDNS/internal/stats"
+	"github.com/LensDNS/dnsproxy/proxy"
 	"github.com/miekg/dns"
 )
 

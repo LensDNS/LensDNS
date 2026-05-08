@@ -9,13 +9,13 @@ import (
 	"slices"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering/rulelist"
-	"github.com/AdguardTeam/AdGuardHome/internal/schedule"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/validate"
 	"github.com/AdguardTeam/urlfilter/rules"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
+	"github.com/LensDNS/LensDNS/internal/filtering/rulelist"
+	"github.com/LensDNS/LensDNS/internal/schedule"
 )
 
 // serviceRules maps a service ID to its filtering rules.

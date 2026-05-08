@@ -25,6 +25,9 @@ const Config = () => {
         edns_cs_custom_ip,
         dnssec_enabled,
         disable_ipv6,
+        trusted_proxies,
+        tcp_proxy_protocol_v2_enabled,
+        tls_proxy_protocol_v2_enabled,
         processingSetConfig,
     } = useSelector((state: RootState) => state.dnsConfig, shallowEqual);
 
@@ -50,6 +53,9 @@ const Config = () => {
                         dnssec_enabled,
                         edns_cs_use_custom,
                         edns_cs_custom_ip,
+                        trusted_proxies,
+                        tcp_proxy_protocol_v2_enabled,
+                        tls_proxy_protocol_v2_enabled,
                     }}
                     onSubmit={handleFormSubmit}
                     processing={processingSetConfig}

@@ -3,8 +3,8 @@ package filtering
 import (
 	"net/netip"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering/rulelist"
 	"github.com/AdguardTeam/urlfilter/rules"
+	"github.com/LensDNS/LensDNS/internal/filtering/rulelist"
 )
 
 // Result contains the result of a request check.  All fields transitively have

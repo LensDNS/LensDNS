@@ -10,10 +10,10 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghalg"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghtest"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
 	"github.com/AdguardTeam/golibs/testutil"
+	"github.com/LensDNS/LensDNS/internal/aghalg"
+	"github.com/LensDNS/LensDNS/internal/aghtest"
+	"github.com/LensDNS/LensDNS/internal/filtering"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

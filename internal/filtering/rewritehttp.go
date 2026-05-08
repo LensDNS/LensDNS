@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"slices"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghalg"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
+	"github.com/LensDNS/LensDNS/internal/aghalg"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
 )
 
 // rewriteEntryJSON is a single entry of the DNS rewrite.

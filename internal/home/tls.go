@@ -20,13 +20,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/agh"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghalg"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghtls"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
+	"github.com/LensDNS/LensDNS/internal/agh"
+	"github.com/LensDNS/LensDNS/internal/aghalg"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
+	"github.com/LensDNS/LensDNS/internal/aghnet"
+	"github.com/LensDNS/LensDNS/internal/aghtls"
 	"github.com/c2h5oh/datasize"
 )
 

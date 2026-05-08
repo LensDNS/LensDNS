@@ -6,10 +6,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghtest"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
-	"github.com/AdguardTeam/dnsproxy/proxy"
 	"github.com/AdguardTeam/golibs/testutil"
+	"github.com/LensDNS/LensDNS/internal/aghtest"
+	"github.com/LensDNS/LensDNS/internal/filtering"
+	"github.com/LensDNS/dnsproxy/proxy"
 	"github.com/miekg/dns"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

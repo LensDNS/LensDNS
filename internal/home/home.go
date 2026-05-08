@@ -19,25 +19,6 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/agh"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghalg"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghslog"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghtls"
-	"github.com/AdguardTeam/AdGuardHome/internal/arpdb"
-	"github.com/AdguardTeam/AdGuardHome/internal/dhcpd"
-	"github.com/AdguardTeam/AdGuardHome/internal/dnsforward"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering/hashprefix"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering/safesearch"
-	"github.com/AdguardTeam/AdGuardHome/internal/permcheck"
-	"github.com/AdguardTeam/AdGuardHome/internal/querylog"
-	"github.com/AdguardTeam/AdGuardHome/internal/stats"
-	"github.com/AdguardTeam/AdGuardHome/internal/updater"
-	"github.com/AdguardTeam/AdGuardHome/internal/version"
-	"github.com/AdguardTeam/dnsproxy/upstream"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/hostsfile"
 	"github.com/AdguardTeam/golibs/log"
@@ -46,6 +27,25 @@ import (
 	"github.com/AdguardTeam/golibs/netutil/urlutil"
 	"github.com/AdguardTeam/golibs/osutil"
 	"github.com/AdguardTeam/golibs/osutil/executil"
+	"github.com/LensDNS/LensDNS/internal/agh"
+	"github.com/LensDNS/LensDNS/internal/aghalg"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
+	"github.com/LensDNS/LensDNS/internal/aghnet"
+	"github.com/LensDNS/LensDNS/internal/aghos"
+	"github.com/LensDNS/LensDNS/internal/aghslog"
+	"github.com/LensDNS/LensDNS/internal/aghtls"
+	"github.com/LensDNS/LensDNS/internal/arpdb"
+	"github.com/LensDNS/LensDNS/internal/dhcpd"
+	"github.com/LensDNS/LensDNS/internal/dnsforward"
+	"github.com/LensDNS/LensDNS/internal/filtering"
+	"github.com/LensDNS/LensDNS/internal/filtering/hashprefix"
+	"github.com/LensDNS/LensDNS/internal/filtering/safesearch"
+	"github.com/LensDNS/LensDNS/internal/permcheck"
+	"github.com/LensDNS/LensDNS/internal/querylog"
+	"github.com/LensDNS/LensDNS/internal/stats"
+	"github.com/LensDNS/LensDNS/internal/updater"
+	"github.com/LensDNS/LensDNS/internal/version"
+	"github.com/LensDNS/dnsproxy/upstream"
 )
 
 // Global context
@@ -1096,7 +1096,7 @@ Please note that this is crucial for a server to be able to use privileged ports
 You have two options:
 1. Run AdGuard Home with root privileges.
 2. On Linux you can grant the CAP_NET_BIND_SERVICE capability:
-https://github.com/AdguardTeam/AdGuardHome/wiki/Getting-Started#running-without-superuser`
+https://github.com/LensDNS/LensDNS/wiki/Getting-Started#running-without-superuser`
 
 // checkNetworkPermissions checks if the current user permissions are enough to
 // use the required networking functionality.  l must not be nil.

@@ -3,11 +3,11 @@ package configmgr
 import (
 	"net/netip"
 
-	"github.com/AdguardTeam/dnsproxy/proxy"
 	"github.com/AdguardTeam/golibs/container"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/timeutil"
 	"github.com/AdguardTeam/golibs/validate"
+	"github.com/LensDNS/dnsproxy/proxy"
 )
 
 // config is the top-level on-disk configuration structure.

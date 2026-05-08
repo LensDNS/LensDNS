@@ -9,13 +9,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/AdGuardHome/internal/dnsforward"
-	"github.com/AdguardTeam/AdGuardHome/internal/version"
 	"github.com/AdguardTeam/golibs/httphdr"
 	"github.com/AdguardTeam/golibs/netutil"
 	"github.com/AdguardTeam/golibs/netutil/urlutil"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
+	"github.com/LensDNS/LensDNS/internal/aghnet"
+	"github.com/LensDNS/LensDNS/internal/dnsforward"
+	"github.com/LensDNS/LensDNS/internal/version"
 	"github.com/NYTimes/gziphandler"
 )
 

@@ -8,8 +8,8 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/dhcpsvc"
 	"github.com/AdguardTeam/golibs/testutil"
+	"github.com/LensDNS/LensDNS/internal/dhcpsvc"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/stretchr/testify/require"
@@ -91,7 +91,7 @@ func (nd *testNetworkDevice) LinkType() (lt layers.LinkType) {
 
 // newTestNetworkDeviceManager creates a network device manager for testing.  It
 // requires that device opened have a deviceName.  The device itself has a link
-// type [layers.LinkTypeEthernet] and a hardware address [testIfaceHWAddr].
+// type [layers.LinkTypeEthernet] and a hardware address [testHWIface].
 // Incoming packets are received from inCh and outgoing packets are sent to
 // outCh.
 func newTestNetworkDeviceManager(
@@ -125,7 +125,7 @@ func newTestNetworkDeviceManager(
 }
 
 // newTestNetworkDevice creates a network device for testing.  It has a link
-// type [layers.LinkTypeEthernet] and a hardware address [testIfaceHWAddr].
+// type [layers.LinkTypeEthernet] and a hardware address [testHWIface].
 // Incoming packets are received from inCh and outgoing packets are sent to
 // outCh.
 func newTestNetworkDevice(
@@ -169,7 +169,7 @@ func newTestNetworkDevice(
 	}
 
 	onHardwareAddr := func() (hw net.HardwareAddr) {
-		return testIfaceHWAddr
+		return testHWIface
 	}
 
 	onLinkType := func() (lt layers.LinkType) {

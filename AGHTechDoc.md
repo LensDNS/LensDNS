@@ -1081,12 +1081,15 @@ Response:
 		"blocking_ipv4": "1.2.3.4",
 		"blocking_ipv6": "1:2:3::4",
 		"edns_cs_enabled": true | false,
-		"dnssec_enabled": true | false
+		"dnssec_enabled": true | false,
 		"disable_ipv6": true | false,
-		"upstream_mode": "" | "parallel" | "fastest_addr"
+		"upstream_mode": "" | "parallel" | "fastest_addr",
 		"cache_size": 1234, // in bytes
 		"cache_ttl_min": 1234, // in seconds
 		"cache_ttl_max": 1234, // in seconds
+		"tcp_proxy_protocol_v2_enabled": true | false,
+		"tls_proxy_protocol_v2_enabled": true | false,
+		"trusted_proxies": ["10.0.0.0/8", "192.168.0.0/16", ...]
 	}
 
 
@@ -1107,12 +1110,15 @@ Request:
 		"blocking_ipv4": "1.2.3.4",
 		"blocking_ipv6": "1:2:3::4",
 		"edns_cs_enabled": true | false,
-		"dnssec_enabled": true | false
+		"dnssec_enabled": true | false,
 		"disable_ipv6": true | false,
-		"upstream_mode": "" | "parallel" | "fastest_addr"
+		"upstream_mode": "" | "parallel" | "fastest_addr",
 		"cache_size": 1234, // in bytes
 		"cache_ttl_min": 1234, // in seconds
 		"cache_ttl_max": 1234, // in seconds
+		"tcp_proxy_protocol_v2_enabled": true | false,
+		"tls_proxy_protocol_v2_enabled": true | false,
+		"trusted_proxies": ["10.0.0.0/8", "192.168.0.0/16", ...]
 	}
 
 Response:
@@ -1124,6 +1130,15 @@ Response:
 * NXDOMAIN: Respond with NXDOMAIN code
 * Null IP: Respond with zero IP address (0.0.0.0 for A; :: for AAAA)
 * Custom IP: Respond with a manually set IP address
+
+Proxy Protocol v2 (PPv2):
+* `tcp_proxy_protocol_v2_enabled`: Enables strict PPv2 mode for DNS-over-TCP.
+* `tls_proxy_protocol_v2_enabled`: Enables strict PPv2 mode for DNS-over-TLS.
+* `trusted_proxies`: CIDR list of trusted proxy source networks.
+* Strict policy:
+  * If PPv2 is enabled on a listener, connections without valid PPv2 headers are rejected.
+  * If PPv2 is disabled on a listener, connections with PPv2 headers are rejected.
+  * For DoT, the stream order is: PPv2 header -> TLS handshake -> DNS-over-TCP framing.
 
 `blocking_ipv4` and `blocking_ipv6` values are active when `blocking_mode` is set to `custom_ip`.
 

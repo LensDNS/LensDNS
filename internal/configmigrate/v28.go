@@ -3,7 +3,7 @@ package configmigrate
 import (
 	"context"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/dnsforward"
+	"github.com/LensDNS/LensDNS/internal/dnsforward"
 )
 
 // migrateTo28 performs the following changes:

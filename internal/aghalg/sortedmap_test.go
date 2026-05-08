@@ -3,7 +3,7 @@ package aghalg_test
 import (
 	"testing"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghalg"
+	"github.com/LensDNS/LensDNS/internal/aghalg"
 	"github.com/stretchr/testify/assert"
 )
 

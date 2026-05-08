@@ -10,9 +10,9 @@ import (
 	"net/netip"
 	"slices"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/whois"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/netutil"
+	"github.com/LensDNS/LensDNS/internal/whois"
 )
 
 // ClientID is a unique identifier for a persistent client used in

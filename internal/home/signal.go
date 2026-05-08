@@ -7,10 +7,10 @@ import (
 	"sync"
 	"syscall"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghtls"
-	"github.com/AdguardTeam/AdGuardHome/internal/client"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/osutil"
+	"github.com/LensDNS/LensDNS/internal/aghtls"
+	"github.com/LensDNS/LensDNS/internal/client"
 )
 
 // signalHandler processes incoming signals.  It reloads configurations of

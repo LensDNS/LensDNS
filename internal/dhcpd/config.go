@@ -8,12 +8,12 @@ import (
 	"net/netip"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/agh"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/AdGuardHome/internal/dhcpsvc"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/osutil/executil"
+	"github.com/LensDNS/LensDNS/internal/agh"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
+	"github.com/LensDNS/LensDNS/internal/aghnet"
+	"github.com/LensDNS/LensDNS/internal/dhcpsvc"
 )
 
 // ServerConfig is the configuration for the DHCP server.  The order of YAML

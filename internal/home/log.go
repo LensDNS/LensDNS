@@ -8,9 +8,9 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
 	"github.com/AdguardTeam/golibs/log"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
+	"github.com/LensDNS/LensDNS/internal/aghos"
 	yaml "go.yaml.in/yaml/v4"
 	"gopkg.in/natefinch/lumberjack.v2"
 )

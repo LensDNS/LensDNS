@@ -4,8 +4,8 @@ import (
 	"net"
 	"testing"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
 	"github.com/AdguardTeam/golibs/netutil"
+	"github.com/LensDNS/LensDNS/internal/aghnet"
 	"github.com/stretchr/testify/assert"
 )
 

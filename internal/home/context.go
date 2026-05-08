@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghuser"
 	"github.com/AdguardTeam/golibs/errors"
+	"github.com/LensDNS/LensDNS/internal/aghuser"
 )
 
 // ctxKey is the type for context keys within this package.

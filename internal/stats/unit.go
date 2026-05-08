@@ -9,10 +9,10 @@ import (
 	"slices"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/dnsproxy/proxy"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
+	"github.com/LensDNS/LensDNS/internal/aghnet"
+	"github.com/LensDNS/dnsproxy/proxy"
 	"go.etcd.io/bbolt"
 )
 

@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/AdguardTeam/golibs/errors"
 	"golang.org/x/sys/windows"
 )
 
@@ -24,9 +25,9 @@ func haveAdminRights() (bool, error) {
 	info := make([]byte, 4)
 	var returnedLen uint32
 	err = windows.GetTokenInformation(token, windows.TokenElevation, &info[0], uint32(len(info)), &returnedLen)
-	token.Close()
-	if err != nil {
-		return false, err
+	closeErr := token.Close()
+	if err != nil || closeErr != nil {
+		return false, errors.Join(err, closeErr)
 	}
 	if info[0] == 0 {
 		return false, nil

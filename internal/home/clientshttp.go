@@ -7,14 +7,14 @@ import (
 	"net/http"
 	"net/netip"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghalg"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/client"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering/safesearch"
-	"github.com/AdguardTeam/AdGuardHome/internal/schedule"
-	"github.com/AdguardTeam/AdGuardHome/internal/whois"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
+	"github.com/LensDNS/LensDNS/internal/aghalg"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
+	"github.com/LensDNS/LensDNS/internal/client"
+	"github.com/LensDNS/LensDNS/internal/filtering"
+	"github.com/LensDNS/LensDNS/internal/filtering/safesearch"
+	"github.com/LensDNS/LensDNS/internal/schedule"
+	"github.com/LensDNS/LensDNS/internal/whois"
 )
 
 // clientJSON is a common structure used by several handlers to deal with
@@ -589,7 +589,7 @@ func (clients *clientsContainer) findRuntime(
 	// runtime client associated with the IP address was stored previously, but
 	// then the server was reloaded.
 	//
-	// See https://github.com/AdguardTeam/AdGuardHome/issues/2428.
+	// See https://github.com/LensDNS/LensDNS/issues/2428.
 	disallowed, rule := clients.clientChecker.IsBlockedClient(ip, string(params.ClientID))
 
 	var disallowedRule *string

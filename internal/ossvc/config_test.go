@@ -3,7 +3,7 @@ package ossvc_test
 import (
 	"testing"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/ossvc"
+	"github.com/LensDNS/LensDNS/internal/ossvc"
 	"github.com/kardianos/service"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

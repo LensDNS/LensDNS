@@ -17,19 +17,41 @@ import (
 	"testing/fstest"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/agh"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghtest"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
-	"github.com/AdguardTeam/dnsproxy/upstream"
 	"github.com/AdguardTeam/golibs/httphdr"
 	"github.com/AdguardTeam/golibs/netutil"
 	"github.com/AdguardTeam/golibs/testutil"
+	"github.com/LensDNS/LensDNS/internal/agh"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
+	"github.com/LensDNS/LensDNS/internal/aghnet"
+	"github.com/LensDNS/LensDNS/internal/aghtest"
+	"github.com/LensDNS/LensDNS/internal/filtering"
+	"github.com/LensDNS/dnsproxy/upstream"
 	"github.com/miekg/dns"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
+
+func assertJSONEqWithPPv2Defaults(t *testing.T, wantJSON, gotJSON string) {
+	t.Helper()
+
+	want := map[string]any{}
+	require.NoError(t, json.Unmarshal([]byte(wantJSON), &want))
+
+	if _, ok := want["tcp_proxy_protocol_v2_enabled"]; !ok {
+		want["tcp_proxy_protocol_v2_enabled"] = false
+	}
+	if _, ok := want["tls_proxy_protocol_v2_enabled"]; !ok {
+		want["tls_proxy_protocol_v2_enabled"] = false
+	}
+	if _, ok := want["trusted_proxies"]; !ok {
+		want["trusted_proxies"] = []any{}
+	}
+
+	wantBytes, err := json.Marshal(want)
+	require.NoError(t, err)
+
+	assert.JSONEq(t, string(wantBytes), gotJSON)
+}
 
 // TODO(e.burkov):  Use the better approach to testdata with a separate
 // directory for each test, and a separate file for each subtest.  See the
@@ -146,7 +168,7 @@ func TestDNSForwardHTTP_handleGetConfig(t *testing.T) {
 
 			cType := w.Header().Get(httphdr.ContentType)
 			assert.Equal(t, aghhttp.HdrValApplicationJSON, cType)
-			assert.JSONEq(t, string(caseWant), w.Body.String())
+			assertJSONEqWithPPv2Defaults(t, string(caseWant), w.Body.String())
 		})
 	}
 }
@@ -312,7 +334,7 @@ func TestDNSForwardHTTP_handleSetConfig(t *testing.T) {
 			w.Body.Reset()
 
 			s.handleGetConfig(w, httptest.NewRequest(http.MethodGet, "/", nil))
-			assert.JSONEq(t, string(caseData.Want), w.Body.String())
+			assertJSONEqWithPPv2Defaults(t, string(caseData.Want), w.Body.String())
 			w.Body.Reset()
 		})
 	}
@@ -488,4 +510,85 @@ func TestServer_HandleTestUpstreamDNS(t *testing.T) {
 
 		assert.True(t, strings.HasSuffix(sleepyRes, "i/o timeout"))
 	})
+}
+
+func TestDNSForwardHTTP_handleSetConfig_PPv2(t *testing.T) {
+	filterConf := &filtering.Config{
+		ProtectionEnabled:  true,
+		BlockingMode:       filtering.BlockingModeDefault,
+		BlockedResponseTTL: testBlockedRespTTL,
+	}
+	forwardConf := ServerConfig{
+		UDPListenAddrs: []*net.UDPAddr{},
+		TCPListenAddrs: []*net.TCPAddr{},
+		TLSConf:        &TLSConfig{},
+		Config: Config{
+			UpstreamDNS:      []string{"8.8.8.8:53"},
+			UpstreamMode:     UpstreamModeLoadBalance,
+			EDNSClientSubnet: &EDNSClientSubnet{Enabled: false},
+			ClientsContainer: EmptyClientsContainer{},
+		},
+		ConfModifier:  agh.EmptyConfigModifier{},
+		ServePlainDNS: true,
+	}
+
+	s := createTestServer(t, filterConf, forwardConf)
+	s.sysResolvers = &emptySysResolvers{}
+	startDeferStop(t, s)
+
+	req := map[string]any{
+		"tcp_proxy_protocol_v2_enabled": true,
+		"tls_proxy_protocol_v2_enabled": true,
+		"trusted_proxies":               []string{"10.0.0.0/8"},
+	}
+
+	body, err := json.Marshal(req)
+	require.NoError(t, err)
+
+	w := httptest.NewRecorder()
+	r := httptest.NewRequest(http.MethodPost, "/control/dns_config", bytes.NewReader(body))
+	s.handleSetConfig(w, r)
+	require.Equal(t, "", strings.TrimSuffix(w.Body.String(), "\n"))
+
+	w = httptest.NewRecorder()
+	s.handleGetConfig(w, httptest.NewRequest(http.MethodGet, "/control/dns_info", nil))
+
+	got := map[string]any{}
+	require.NoError(t, json.NewDecoder(w.Body).Decode(&got))
+	assert.Equal(t, true, got["tcp_proxy_protocol_v2_enabled"])
+	assert.Equal(t, true, got["tls_proxy_protocol_v2_enabled"])
+	assert.Equal(t, []any{"10.0.0.0/8"}, got["trusted_proxies"])
+}
+
+func TestDNSForwardHTTP_handleSetConfig_BadTrustedProxies(t *testing.T) {
+	filterConf := &filtering.Config{
+		ProtectionEnabled:  true,
+		BlockingMode:       filtering.BlockingModeDefault,
+		BlockedResponseTTL: testBlockedRespTTL,
+	}
+	forwardConf := ServerConfig{
+		UDPListenAddrs: []*net.UDPAddr{},
+		TCPListenAddrs: []*net.TCPAddr{},
+		TLSConf:        &TLSConfig{},
+		Config: Config{
+			UpstreamDNS:      []string{"8.8.8.8:53"},
+			UpstreamMode:     UpstreamModeLoadBalance,
+			EDNSClientSubnet: &EDNSClientSubnet{Enabled: false},
+			ClientsContainer: EmptyClientsContainer{},
+		},
+		ConfModifier:  agh.EmptyConfigModifier{},
+		ServePlainDNS: true,
+	}
+
+	s := createTestServer(t, filterConf, forwardConf)
+	s.sysResolvers = &emptySysResolvers{}
+	startDeferStop(t, s)
+
+	req := `{"trusted_proxies":["bad-cidr"]}`
+
+	w := httptest.NewRecorder()
+	r := httptest.NewRequest(http.MethodPost, "/control/dns_config", strings.NewReader(req))
+	s.handleSetConfig(w, r)
+
+	assert.Contains(t, w.Body.String(), "decoding request:")
 }

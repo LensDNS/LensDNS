@@ -330,16 +330,19 @@ echo "version=$version" >"./${dist}/version.txt"
 
 # Create the version.json file.
 
-version_download_url="https://static.adtidy.org/adguardhome/${channel}"
+# Allow forks/CI to override.  Empty falls back to upstream defaults.
+version_download_url="${VERSION_DOWNLOAD_URL:-https://static.adtidy.org/adguardhome/${channel}}"
 version_json="./${dist}/version.json"
 readonly version_download_url version_json
 
 # If the channel is edge, point users to the "Platforms" page on the Wiki,
 # because the direct links to the edge packages are listed there.
-if [ "$channel" = 'edge' ]; then
-	announcement_url='https://github.com/AdguardTeam/AdGuardHome/wiki/Platforms'
+if [ "${ANNOUNCEMENT_URL:-}" != '' ]; then
+	announcement_url="${ANNOUNCEMENT_URL}"
+elif [ "$channel" = 'edge' ]; then
+	announcement_url='https://github.com/LensDNS/LensDNS/wiki/Platforms'
 else
-	announcement_url="https://github.com/AdguardTeam/AdGuardHome/releases/tag/${version}"
+	announcement_url="https://github.com/LensDNS/LensDNS/releases/tag/${version}"
 fi
 readonly announcement_url
 

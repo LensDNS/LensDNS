@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"runtime"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/version"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
+	"github.com/LensDNS/LensDNS/internal/version"
 )
 
 // System Handlers

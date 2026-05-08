@@ -11,6 +11,10 @@
 #
 # Only build, run, and test outputs here.  Sorted.  With negations at the
 # bottom to make sure they take effect.
+
+# Local maintainer / AI collaboration notes (not published with the repo).
+/AGENTS.md
+
 *.db
 *.log
 *.out

@@ -3,7 +3,7 @@
 package ossvc
 
 import (
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
+	"github.com/LensDNS/LensDNS/internal/aghos"
 	"github.com/kardianos/service"
 )
 
@@ -170,7 +170,7 @@ exit 0
 `
 
 // OpenWrt procd init script
-// https://github.com/AdguardTeam/AdGuardHome/internal/issues/1386
+// https://github.com/LensDNS/LensDNS/internal/issues/1386
 const openWrtScript = `#!/bin/sh /etc/rc.common
 
 USE_PROCD=1

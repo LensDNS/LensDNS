@@ -11,12 +11,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/dhcpsvc"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/testutil"
 	"github.com/AdguardTeam/golibs/testutil/faketime"
 	"github.com/AdguardTeam/golibs/testutil/servicetest"
 	"github.com/AdguardTeam/golibs/timeutil"
+	"github.com/LensDNS/LensDNS/internal/dhcpsvc"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/stretchr/testify/require"
@@ -108,6 +108,9 @@ const (
 	// start of the second IPv6 interface used in tests.
 	testAnotherRangeStartV6Str = "2001:db9::1"
 )
+
+// testHWIface is the test MAC address of a test network interface.
+var testHWIface = net.HardwareAddr{0xAA, 0xAA, 0xAA, 0xAA, 0xAA, 0xAA}
 
 var (
 	// testIPv4Conf is a common valid IPv4 part of the interface configuration

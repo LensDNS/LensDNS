@@ -20,13 +20,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/agh"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghalg"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghtls"
-	"github.com/AdguardTeam/AdGuardHome/internal/client"
-	"github.com/AdguardTeam/AdGuardHome/internal/dnsforward"
 	"github.com/AdguardTeam/golibs/testutil"
 	"github.com/AdguardTeam/golibs/timeutil"
+	"github.com/LensDNS/LensDNS/internal/agh"
+	"github.com/LensDNS/LensDNS/internal/aghalg"
+	"github.com/LensDNS/LensDNS/internal/aghtls"
+	"github.com/LensDNS/LensDNS/internal/client"
+	"github.com/LensDNS/LensDNS/internal/dnsforward"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

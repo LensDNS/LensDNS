@@ -1,8 +1,8 @@
 package aghtest_test
 
 import (
-	"github.com/AdguardTeam/AdGuardHome/internal/aghtest"
-	"github.com/AdguardTeam/AdGuardHome/internal/client"
+	"github.com/LensDNS/LensDNS/internal/aghtest"
+	"github.com/LensDNS/LensDNS/internal/client"
 )
 
 // type check

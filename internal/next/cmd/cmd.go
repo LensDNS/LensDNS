@@ -10,11 +10,11 @@ import (
 	"os"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/next/configmgr"
-	"github.com/AdguardTeam/AdGuardHome/internal/version"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/service"
+	"github.com/LensDNS/LensDNS/internal/next/configmgr"
+	"github.com/LensDNS/LensDNS/internal/version"
 )
 
 // Main is the entry point of AdGuard Home.

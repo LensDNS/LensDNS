@@ -1,0 +1,130 @@
+# 仅在 fork 仓库自动构建并发布 GitHub Release，与官方 AdguardTeam/AdGuardHome CI 隔离。
+#
+# 触发：推送符合 SemVer 的 tag（v*，例如 v1.0.0）。
+# 请将两个 job 里的 github.repository 比较值改为你自己的「所有者/仓库名」。
+#
+# 官方仓库即使合并本文件也不会执行发布（repository 判断为假）；官方仍使用原有 build.yml 等流程。
+
+'name': 'release (fork)'
+
+'env':
+  'GO_VERSION': '1.26.2'
+  'NODE_VERSION': '20'
+
+'on':
+  'push':
+    'tags':
+    - 'v*'
+
+'permissions':
+  'contents': 'write'
+  'packages': 'write'
+
+'jobs':
+  'test':
+    # 改为你的 fork，例如 'LensDNS/LensDNS'
+    'if': "github.repository == 'LensDNS/LensDNS'"
+    'runs-on': 'ubuntu-latest'
+    'env':
+      'GO111MODULE': 'on'
+      'GOPROXY': 'https://goproxy.cn|direct'
+    'steps':
+    - 'name': 'Checkout'
+      'uses': 'actions/checkout@v4'
+      'with':
+        'fetch-depth': 0
+    - 'name': 'Set up Go'
+      'uses': 'actions/setup-go@v5'
+      'with':
+        'go-version': '${{ env.GO_VERSION }}'
+    - 'name': 'Set up Node'
+      'uses': 'actions/setup-node@v4'
+      'with':
+        'node-version': '${{ env.NODE_VERSION }}'
+    - 'name': 'Set up Go modules cache'
+      'uses': 'actions/cache@v4'
+      'with':
+        'path': '~/go/pkg/mod'
+        'key': "${{ runner.os }}-go-${{ hashFiles('go.sum') }}"
+        'restore-keys': '${{ runner.os }}-go-'
+    - 'name': 'Set up npm cache'
+      'uses': 'actions/cache@v4'
+      'with':
+        'path': '~/.npm'
+        'key': "${{ runner.os }}-node-${{ hashFiles('client/package-lock.json') }}"
+        'restore-keys': '${{ runner.os }}-node-'
+    - 'name': 'Run tests'
+      'run': 'make VERBOSE=1 deps test'
+
+  'release':
+    'if': "github.repository == 'LensDNS/LensDNS'"
+    'runs-on': 'ubuntu-latest'
+    'needs': 'test'
+    'env':
+      'GO111MODULE': 'on'
+      'GOPROXY': 'https://goproxy.cn|direct'
+    'steps':
+    - 'name': 'Checkout'
+      'uses': 'actions/checkout@v4'
+      'with':
+        'fetch-depth': 0
+    - 'name': 'Set up Go'
+      'uses': 'actions/setup-go@v5'
+      'with':
+        'go-version': '${{ env.GO_VERSION }}'
+    - 'name': 'Set up Node'
+      'uses': 'actions/setup-node@v4'
+      'with':
+        'node-version': '${{ env.NODE_VERSION }}'
+    - 'name': 'Set up Go modules cache'
+      'uses': 'actions/cache@v4'
+      'with':
+        'path': '~/go/pkg/mod'
+        'key': "${{ runner.os }}-go-${{ hashFiles('go.sum') }}"
+        'restore-keys': '${{ runner.os }}-go-'
+    - 'name': 'Set up npm cache'
+      'uses': 'actions/cache@v4'
+      'with':
+        'path': '~/.npm'
+        'key': "${{ runner.os }}-node-${{ hashFiles('client/package-lock.json') }}"
+        'restore-keys': '${{ runner.os }}-node-'
+    # VERSION：用 tag 名作为发行号。须配合 make -e：Makefile 里写了 VERSION=v0.0.0，
+    # GNU Make 默认不会用环境变量覆盖该赋值；不设 -e 时会仍用 v0.0.0 并调用 version.sh → git describe（fork 上易失败）。
+    # SIGN=0：跳过 GPG / Windows 可执行文件签名。
+    - 'name': 'Build release archives'
+      'env':
+        'VERSION': '${{ github.ref_name }}'
+        'VERSION_DOWNLOAD_URL': 'https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}'
+        'ANNOUNCEMENT_URL': 'https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}'
+        'UPDATE_INDEX_URL': 'https://github.com/${{ github.repository }}/releases/latest/download/version.json'
+      'run': 'make -e SIGN=0 VERBOSE=1 CHANNEL=release deps build-release'
+    - 'name': 'Set up QEMU'
+      'uses': 'docker/setup-qemu-action@v3'
+    - 'name': 'Set up Docker Buildx'
+      'uses': 'docker/setup-buildx-action@v3'
+    - 'name': 'Login to GHCR'
+      'uses': 'docker/login-action@v3'
+      'with':
+        'registry': 'ghcr.io'
+        'username': '${{ github.actor }}'
+        'password': '${{ secrets.GITHUB_TOKEN }}'
+    - 'name': 'Build and push Docker image to GHCR'
+      'env':
+        'VERSION': '${{ github.ref_name }}'
+      'run': >-
+        make -e SIGN=0 VERBOSE=1 CHANNEL=release
+        DOCKER_IMAGE_NAME=ghcr.io/lensdns/lensdns
+        DOCKER_PUSH=1 build-docker
+    - 'name': 'Publish GitHub Release'
+      'uses': 'softprops/action-gh-release@v2'
+      'with':
+        'tag_name': '${{ github.ref_name }}'
+        'name': '${{ github.ref_name }}'
+        'generate_release_notes': true
+        'files': |
+          dist/*.zip
+          dist/*.tar.gz
+          dist/checksums.txt
+          dist/version.txt
+          dist/version.json
+          dist/AdGuardHome_frontend.tar.gz

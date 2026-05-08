@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"net/netip"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/next/jsonpatch"
-	"github.com/AdguardTeam/dnsproxy/proxy"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
+	"github.com/LensDNS/LensDNS/internal/next/jsonpatch"
+	"github.com/LensDNS/dnsproxy/proxy"
 )
 
 // ReqPatchSettingsDNS describes the request to the PATCH /api/v1/settings/dns

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
 )
 
 // Theme is an enum of all allowed UI themes.

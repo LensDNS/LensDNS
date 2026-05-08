@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/dhcpsvc"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/timeutil"
+	"github.com/LensDNS/LensDNS/internal/dhcpsvc"
 )
 
 const (

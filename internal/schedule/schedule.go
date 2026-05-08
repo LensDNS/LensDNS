@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/timeutil"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
 	yaml "go.yaml.in/yaml/v4"
 )
 

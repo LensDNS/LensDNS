@@ -12,17 +12,17 @@ import (
 	"slices"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghslog"
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
-	"github.com/AdguardTeam/dnsproxy/proxy"
-	"github.com/AdguardTeam/dnsproxy/upstream"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/golibs/netutil"
 	"github.com/AdguardTeam/golibs/stringutil"
 	"github.com/AdguardTeam/golibs/validate"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
+	"github.com/LensDNS/LensDNS/internal/aghnet"
+	"github.com/LensDNS/LensDNS/internal/aghslog"
+	"github.com/LensDNS/LensDNS/internal/filtering"
+	"github.com/LensDNS/dnsproxy/proxy"
+	"github.com/LensDNS/dnsproxy/upstream"
 )
 
 // jsonDNSConfig is the JSON representation of the DNS server configuration.
@@ -64,6 +64,10 @@ type jsonDNSConfig struct {
 	// RatelimitWhitelist is a list of IP addresses excluded from rate limiting.
 	RatelimitWhitelist *[]netip.Addr `json:"ratelimit_whitelist"`
 
+	// TrustedProxies is the list of trusted proxy networks used to accept
+	// forwarded client addresses.
+	TrustedProxies *[]netutil.Prefix `json:"trusted_proxies"`
+
 	// BlockingMode defines the way blocked responses are constructed.
 	BlockingMode *filtering.BlockingMode `json:"blocking_mode"`
 
@@ -99,6 +103,14 @@ type jsonDNSConfig struct {
 
 	// CacheOptimistic defines if expired entries should be served.
 	CacheOptimistic *bool `json:"cache_optimistic"`
+
+	// TCPProxyProtocolV2Enabled defines if DNS-over-TCP listeners require Proxy
+	// Protocol v2 headers.
+	TCPProxyProtocolV2Enabled *bool `json:"tcp_proxy_protocol_v2_enabled"`
+
+	// TLSProxyProtocolV2Enabled defines if DNS-over-TLS listeners require Proxy
+	// Protocol v2 headers.
+	TLSProxyProtocolV2Enabled *bool `json:"tls_proxy_protocol_v2_enabled"`
 
 	// ResolveClients defines if clients IPs should be resolved into hostnames.
 	ResolveClients *bool `json:"resolve_clients"`
@@ -158,6 +170,7 @@ func (s *Server) getDNSConfig(ctx context.Context) (c *jsonDNSConfig) {
 	ratelimitSubnetLenIPv4 := s.conf.RatelimitSubnetLenIPv4
 	ratelimitSubnetLenIPv6 := s.conf.RatelimitSubnetLenIPv6
 	ratelimitWhitelist := append([]netip.Addr{}, s.conf.RatelimitWhitelist...)
+	trustedProxies := append([]netutil.Prefix{}, s.conf.TrustedProxies...)
 	upstreamTimeout := int(s.conf.UpstreamTimeout.Seconds())
 
 	customIP := s.conf.EDNSClientSubnet.CustomIP
@@ -171,6 +184,8 @@ func (s *Server) getDNSConfig(ctx context.Context) (c *jsonDNSConfig) {
 	cacheMinTTL := s.conf.CacheMinTTL
 	cacheMaxTTL := s.conf.CacheMaxTTL
 	cacheOptimistic := s.conf.CacheOptimistic
+	tcpPPv2Enabled := s.conf.TCPProxyProtocolV2Enabled
+	tlsPPv2Enabled := s.conf.TLSProxyProtocolV2Enabled
 	resolveClients := s.conf.AddrProcConf.UseRDNS
 	usePrivateRDNS := s.conf.UsePrivateRDNS
 	localPTRUpstreams := stringutil.CloneSliceOrEmpty(s.conf.LocalPTRResolvers)
@@ -193,36 +208,39 @@ func (s *Server) getDNSConfig(ctx context.Context) (c *jsonDNSConfig) {
 	}
 
 	return &jsonDNSConfig{
-		Upstreams:                &upstreams,
-		UpstreamsFile:            &upstreamFile,
-		Bootstraps:               &bootstraps,
-		Fallbacks:                &fallbacks,
-		ProtectionEnabled:        &protectionEnabled,
-		BlockingMode:             &blockingMode,
-		BlockingIPv4:             blockingIPv4,
-		BlockingIPv6:             blockingIPv6,
-		Ratelimit:                &ratelimit,
-		RatelimitSubnetLenIPv4:   &ratelimitSubnetLenIPv4,
-		RatelimitSubnetLenIPv6:   &ratelimitSubnetLenIPv6,
-		RatelimitWhitelist:       &ratelimitWhitelist,
-		UpstreamTimeout:          &upstreamTimeout,
-		EDNSCSCustomIP:           customIP,
-		EDNSCSEnabled:            &enableEDNSClientSubnet,
-		EDNSCSUseCustom:          &useCustom,
-		DNSSECEnabled:            &enableDNSSEC,
-		DisableIPv6:              &aaaaDisabled,
-		BlockedResponseTTL:       &blockedResponseTTL,
-		CacheEnabled:             &cacheEnabled,
-		CacheSize:                &cacheSize,
-		CacheMinTTL:              &cacheMinTTL,
-		CacheMaxTTL:              &cacheMaxTTL,
-		CacheOptimistic:          &cacheOptimistic,
-		UpstreamMode:             &upstreamMode,
-		ResolveClients:           &resolveClients,
-		UsePrivateRDNS:           &usePrivateRDNS,
-		LocalPTRUpstreams:        &localPTRUpstreams,
-		DefaultLocalPTRUpstreams: defPTRUps,
-		DisabledUntil:            protectionDisabledUntil,
+		Upstreams:                 &upstreams,
+		UpstreamsFile:             &upstreamFile,
+		Bootstraps:                &bootstraps,
+		Fallbacks:                 &fallbacks,
+		ProtectionEnabled:         &protectionEnabled,
+		BlockingMode:              &blockingMode,
+		BlockingIPv4:              blockingIPv4,
+		BlockingIPv6:              blockingIPv6,
+		Ratelimit:                 &ratelimit,
+		RatelimitSubnetLenIPv4:    &ratelimitSubnetLenIPv4,
+		RatelimitSubnetLenIPv6:    &ratelimitSubnetLenIPv6,
+		RatelimitWhitelist:        &ratelimitWhitelist,
+		TrustedProxies:            &trustedProxies,
+		UpstreamTimeout:           &upstreamTimeout,
+		EDNSCSCustomIP:            customIP,
+		EDNSCSEnabled:             &enableEDNSClientSubnet,
+		EDNSCSUseCustom:           &useCustom,
+		DNSSECEnabled:             &enableDNSSEC,
+		DisableIPv6:               &aaaaDisabled,
+		BlockedResponseTTL:        &blockedResponseTTL,
+		CacheEnabled:              &cacheEnabled,
+		CacheSize:                 &cacheSize,
+		CacheMinTTL:               &cacheMinTTL,
+		CacheMaxTTL:               &cacheMaxTTL,
+		CacheOptimistic:           &cacheOptimistic,
+		TCPProxyProtocolV2Enabled: &tcpPPv2Enabled,
+		TLSProxyProtocolV2Enabled: &tlsPPv2Enabled,
+		UpstreamMode:              &upstreamMode,
+		ResolveClients:            &resolveClients,
+		UsePrivateRDNS:            &usePrivateRDNS,
+		LocalPTRUpstreams:         &localPTRUpstreams,
+		DefaultLocalPTRUpstreams:  defPTRUps,
+		DisabledUntil:             protectionDisabledUntil,
 	}
 }
 
@@ -668,6 +686,9 @@ func (s *Server) setConfigRestartable(dc *jsonDNSConfig) (shouldRestart bool) {
 		setIfNotNil(&s.conf.RatelimitSubnetLenIPv4, dc.RatelimitSubnetLenIPv4),
 		setIfNotNil(&s.conf.RatelimitSubnetLenIPv6, dc.RatelimitSubnetLenIPv6),
 		setIfNotNil(&s.conf.RatelimitWhitelist, dc.RatelimitWhitelist),
+		setIfNotNil(&s.conf.TrustedProxies, dc.TrustedProxies),
+		setIfNotNil(&s.conf.TCPProxyProtocolV2Enabled, dc.TCPProxyProtocolV2Enabled),
+		setIfNotNil(&s.conf.TLSProxyProtocolV2Enabled, dc.TLSProxyProtocolV2Enabled),
 	} {
 		shouldRestart = shouldRestart || hasSet
 		if shouldRestart {

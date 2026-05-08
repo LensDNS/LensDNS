@@ -6,10 +6,10 @@ import (
 	"net/netip"
 	"slices"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
-	"github.com/AdguardTeam/dnsproxy/proxy"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
 	"github.com/AdguardTeam/urlfilter/rules"
+	"github.com/LensDNS/LensDNS/internal/filtering"
+	"github.com/LensDNS/dnsproxy/proxy"
 	"github.com/miekg/dns"
 )
 

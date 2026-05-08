@@ -13,15 +13,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/agh"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghslog"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghtls"
-	"github.com/AdguardTeam/AdGuardHome/internal/client"
-	"github.com/AdguardTeam/dnsproxy/proxy"
-	"github.com/AdguardTeam/dnsproxy/ratelimit"
-	"github.com/AdguardTeam/dnsproxy/upstream"
 	"github.com/AdguardTeam/golibs/container"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
@@ -29,6 +20,15 @@ import (
 	"github.com/AdguardTeam/golibs/stringutil"
 	"github.com/AdguardTeam/golibs/timeutil"
 	"github.com/AdguardTeam/golibs/validate"
+	"github.com/LensDNS/LensDNS/internal/agh"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
+	"github.com/LensDNS/LensDNS/internal/aghnet"
+	"github.com/LensDNS/LensDNS/internal/aghslog"
+	"github.com/LensDNS/LensDNS/internal/aghtls"
+	"github.com/LensDNS/LensDNS/internal/client"
+	"github.com/LensDNS/dnsproxy/proxy"
+	"github.com/LensDNS/dnsproxy/ratelimit"
+	"github.com/LensDNS/dnsproxy/upstream"
 	"github.com/ameshkov/dnscrypt/v2"
 )
 
@@ -103,6 +103,14 @@ type Config struct {
 	// from which the DoH requests should be handled.  The value of nil or an
 	// empty slice for this field makes Proxy not trust any address.
 	TrustedProxies []netutil.Prefix `yaml:"trusted_proxies"`
+
+	// TCPProxyProtocolV2Enabled defines if plain DNS-over-TCP listeners require
+	// Proxy Protocol v2 headers.
+	TCPProxyProtocolV2Enabled bool `yaml:"tcp-proxy-protocol-v2"`
+
+	// TLSProxyProtocolV2Enabled defines if DNS-over-TLS listeners require Proxy
+	// Protocol v2 headers before TLS handshake.
+	TLSProxyProtocolV2Enabled bool `yaml:"tls-proxy-protocol-v2"`
 
 	// DNS cache settings
 
@@ -348,6 +356,8 @@ func (s *Server) newProxyConfig(ctx context.Context) (conf *proxy.Config, err er
 		Logger:                    s.baseLogger.With(slogutil.KeyPrefix, aghslog.PrefixDNSProxy),
 		RefuseAny:                 srvConf.RefuseAny,
 		TrustedProxies:            netutil.SliceSubnetSet(trustedPrefixes),
+		TCPProxyProtocolV2Enabled: srvConf.TCPProxyProtocolV2Enabled,
+		TLSProxyProtocolV2Enabled: srvConf.TLSProxyProtocolV2Enabled,
 		CacheMinTTL:               srvConf.CacheMinTTL,
 		CacheMaxTTL:               srvConf.CacheMaxTTL,
 		CacheOptimistic:           srvConf.CacheOptimistic,
@@ -845,7 +855,7 @@ func (s *Server) UpdatedProtectionStatus(
 	// relatively rare situation, do not lock s.serverLock for writing, as that
 	// can lead to freezes.
 	//
-	// See https://github.com/AdguardTeam/AdGuardHome/issues/5661.
+	// See https://github.com/LensDNS/LensDNS/issues/5661.
 	if s.protectionUpdateInProgress.CompareAndSwap(false, true) {
 		go s.enableProtectionAfterPause(ctx)
 	}

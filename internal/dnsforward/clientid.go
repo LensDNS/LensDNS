@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/client"
-	"github.com/AdguardTeam/dnsproxy/proxy"
 	"github.com/AdguardTeam/golibs/netutil"
+	"github.com/LensDNS/LensDNS/internal/client"
+	"github.com/LensDNS/dnsproxy/proxy"
 )
 
 // clientIDFromClientServerName extracts and validates a ClientID.  hostSrvName

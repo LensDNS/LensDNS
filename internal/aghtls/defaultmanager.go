@@ -6,9 +6,9 @@ import (
 	"log/slog"
 	"sync"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
+	"github.com/LensDNS/LensDNS/internal/aghos"
 )
 
 // DefaultManagerConfig is the configuration structure for [NewDefaultManager].

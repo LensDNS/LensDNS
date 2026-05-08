@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
 	"github.com/AdguardTeam/golibs/httphdr"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
 )
 
 // customUserAgentTransport sets the User-Agent on requests when it is missing

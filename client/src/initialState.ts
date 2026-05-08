@@ -321,10 +321,13 @@ export type DnsConfigData = {
     bootstrap_dns: string;
     local_ptr_upstreams: string;
     ratelimit_whitelist: string;
+    trusted_proxies: string;
     upstream_mode: string;
     resolve_clients: boolean;
     use_private_ptr_resolvers: boolean;
     default_local_ptr_upstreams: any[];
+    tcp_proxy_protocol_v2_enabled?: boolean;
+    tls_proxy_protocol_v2_enabled?: boolean;
     ratelimit_subnet_len_ipv4?: number;
     ratelimit_subnet_len_ipv6?: number;
     edns_cs_use_custom?: boolean;
@@ -510,10 +513,13 @@ export const initialState: RootState = {
         bootstrap_dns: '',
         local_ptr_upstreams: '',
         ratelimit_whitelist: '',
+        trusted_proxies: '',
         upstream_mode: '',
         resolve_clients: false,
         use_private_ptr_resolvers: false,
         default_local_ptr_upstreams: [],
+        tcp_proxy_protocol_v2_enabled: false,
+        tls_proxy_protocol_v2_enabled: false,
     },
     encryption: {
         processing: true,

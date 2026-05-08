@@ -6,10 +6,10 @@ import (
 	"log/slog"
 	"sync"
 
-	"github.com/AdguardTeam/dnsproxy/proxy"
-	"github.com/AdguardTeam/dnsproxy/upstream"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/logutil/slogutil"
+	"github.com/LensDNS/dnsproxy/proxy"
+	"github.com/LensDNS/dnsproxy/upstream"
 	"github.com/miekg/dns"
 )
 
@@ -119,7 +119,7 @@ func collectErrResults(ctx context.Context, l *slog.Logger, lines []string, err 
 		line := []rune(lines[idx])
 		if len(line) > limit {
 			line = line[:limit]
-			line[limit-1] = '…'
+			line[limit-1] = '.'
 		}
 
 		results = append(results, &parseResult{

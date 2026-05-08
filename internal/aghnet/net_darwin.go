@@ -11,10 +11,10 @@ import (
 	"log/slog"
 	"regexp"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
 	"github.com/AdguardTeam/golibs/errors"
 	"github.com/AdguardTeam/golibs/ioutil"
 	"github.com/AdguardTeam/golibs/osutil/executil"
+	"github.com/LensDNS/LensDNS/internal/aghos"
 )
 
 // networkSetupCmd is the command to configure network settings.

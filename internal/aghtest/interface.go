@@ -6,14 +6,14 @@ import (
 	"net/netip"
 	"time"
 
-	"github.com/AdguardTeam/AdGuardHome/internal/agh"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghhttp"
-	"github.com/AdguardTeam/AdGuardHome/internal/aghos"
-	nextagh "github.com/AdguardTeam/AdGuardHome/internal/next/agh"
-	"github.com/AdguardTeam/AdGuardHome/internal/rdns"
-	"github.com/AdguardTeam/AdGuardHome/internal/whois"
-	"github.com/AdguardTeam/dnsproxy/upstream"
 	"github.com/AdguardTeam/golibs/testutil"
+	"github.com/LensDNS/LensDNS/internal/agh"
+	"github.com/LensDNS/LensDNS/internal/aghhttp"
+	"github.com/LensDNS/LensDNS/internal/aghos"
+	nextagh "github.com/LensDNS/LensDNS/internal/next/agh"
+	"github.com/LensDNS/LensDNS/internal/rdns"
+	"github.com/LensDNS/LensDNS/internal/whois"
+	"github.com/LensDNS/dnsproxy/upstream"
 	"github.com/miekg/dns"
 )
 
